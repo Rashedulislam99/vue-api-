@@ -37,7 +37,7 @@
             <td>
               <img
                 v-if="customer.photo"
-                :src="`${imgUrl}/${customer.photo}`"
+                :src="`${imgUrl}  /${customer.photo}`"
                 alt="Customer photo"
                 width="50"
               />

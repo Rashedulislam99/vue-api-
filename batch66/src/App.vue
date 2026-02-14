@@ -1,20 +1,3 @@
-
-
-
-
-
 <template>
-  <div>
-    <Main/>
-  </div>
+  <RouterView />
 </template>
-
-<script lang="ts" setup>
-import Main from './layouts/Main.vue';
-
-
-</script>
-
-<style>
-
-</style>

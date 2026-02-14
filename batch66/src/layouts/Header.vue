@@ -35,8 +35,9 @@ const pageTitle = computed(() => {
   if (route.path === "/role") return "Role registry";
   if (route.path === "/role/create") return "Create a role";
   if (route.path.startsWith("/role/edit")) return "Edit role";
-  if (route.path === "/customer") return "Customer center";
+  if (route.path.startsWith("/customers")) return "Customer center";
   if (route.path === "/user") return "User directory";
+  if (route.path === "/products") return "Product catalog";
   return "Workspace";
 });
 
@@ -45,8 +46,9 @@ const pageSubtitle = computed(() => {
   if (route.path === "/role") return "Review active roles, permissions, and coverage.";
   if (route.path === "/role/create") return "Build a new access profile for your teams.";
   if (route.path.startsWith("/role/edit")) return "Update the role scope and permissions.";
-  if (route.path === "/customer") return "Manage key accounts, contacts, and status updates.";
+  if (route.path.startsWith("/customers")) return "Manage key accounts, contacts, and status updates.";
   if (route.path === "/user") return "Search and monitor team member access in one place.";
+  if (route.path === "/products") return "Browse, compare, and organize available products.";
   return "Manage access and visibility across teams.";
 });
 </script>

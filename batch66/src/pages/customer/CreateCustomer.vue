@@ -1,37 +1,45 @@
 <template>
-  <div>
-    <h1>Create Customer</h1>
-
-    <form @submit.prevent="handleCreate">
-
+  <section class="page">
+    <div class="page-head">
       <div>
-        <label>Name:</label>
-        <input type="text" v-model="customer.name" />
+        <h2>Create customer</h2>
+        <p>Add a new customer profile with contact and address details.</p>
       </div>
-
-      <div>
-        <label>Email:</label>
-        <input type="email" v-model="customer.email" />
+      <div class="page-actions">
+        <RouterLink to="/customers" class="button-outline">Back</RouterLink>
+        <button class="button" type="submit" form="create-customer-form">Save customer</button>
       </div>
+    </div>
 
-      <div>
-        <label>Phone:</label>
-        <input type="text" v-model="customer.phone" />
+    <form id="create-customer-form" class="panel" @submit.prevent="handleCreate">
+      <div class="form-grid">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" v-model="customer.name" placeholder="Customer name" required />
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input type="email" v-model="customer.email" placeholder="name@email.com" required />
+        </label>
+
+        <label class="field">
+          <span>Phone</span>
+          <input type="text" v-model="customer.phone" placeholder="+8801XXXXXXXXX" />
+        </label>
+
+        <label class="field">
+          <span>Address</span>
+          <input type="text" v-model="customer.address" placeholder="Street, City" />
+        </label>
+
+        <label class="field full">
+          <span>Photo</span>
+          <input type="file" @change="handlePhoto" accept="image/*" />
+        </label>
       </div>
-
-      <div>
-        <label>Address:</label>
-        <input type="text" v-model="customer.address" />
-      </div>
-
-      <div>
-        <label>Photo:</label>
-        <input type="file" @change="handlePhoto" />
-      </div>
-
-      <button type="submit">Submit</button>
     </form>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -47,7 +55,7 @@ const customer = reactive({
   email: "",
   phone: "",
   address: "",
-  photo: null
+  photo: null,
 });
 
 function handlePhoto(e) {
@@ -66,11 +74,10 @@ async function handleCreate() {
   }
 
   try {
-    const res = await axios.post(`${baseUrl}/customers`, formData, {
-      headers: { "Content-Type": "multipart/form-data" }
+    await axios.post(`${baseUrl}/customers`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
 
-    console.log(res.data);
     router.push("/customers");
   } catch (err) {
     console.error(err);

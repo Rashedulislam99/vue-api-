@@ -1,75 +1,81 @@
 <template>
-  <div>
-    <p>{{ customer }}</p>
-    <form @submit.prevent="handleUpdate">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" v-model="customer.name" />
-        </div>
-    
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" v-model="customer.email" />
-        </div>
-        <div>
-            <label for="phone">Phone:</label>
-            <input type="text" id="phone" v-model="customer.phone" />
-        </div>
-        <div>
-            <label for="address">Address:</label>
-            <input type="text" id="address" v-model="customer.address" />
-        </div>
-    
-        <button type="submit">Update</button>
+  <section class="page">
+    <div class="page-head">
+      <div>
+        <h2>Edit customer</h2>
+        <p>Update customer contact details and account information.</p>
+      </div>
+      <div class="page-actions">
+        <RouterLink to="/customers" class="button-outline">Back</RouterLink>
+        <button class="button" type="submit" form="edit-customer-form">Update customer</button>
+      </div>
+    </div>
+
+    <form id="edit-customer-form" class="panel" @submit.prevent="handleUpdate">
+      <div class="form-grid">
+        <label class="field">
+          <span>Name</span>
+          <input type="text" id="name" v-model="customer.name" required />
+        </label>
+
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="email" v-model="customer.email" required />
+        </label>
+
+        <label class="field">
+          <span>Phone</span>
+          <input type="text" id="phone" v-model="customer.phone" />
+        </label>
+
+        <label class="field">
+          <span>Address</span>
+          <input type="text" id="address" v-model="customer.address" />
+        </label>
+      </div>
     </form>
-  </div>
+  </section>
 </template>
 
 <script setup>
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import axios from "axios";
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-
-
-
-let customerId= useRoute().params.id
-let customer=ref({})
+const route = useRoute();
+const router = useRouter();
+const customerId = route.params.id;
+const customer = ref({});
 const baseUrl = import.meta.env.VITE_API_BASE_URL;
-const fetchCustomer=()=>{
-    axios.get(`${baseUrl}/customers/${customerId}`)
-    .then(res=>{
-        console.log(res)
-        customer.value=res.data.customer;
-    })
-    .catch(err=>{
-        console.log(err);
-    })
-}
 
-onMounted(()=>{
-    fetchCustomer();
+const fetchCustomer = () => {
+  axios
+    .get(`${baseUrl}/customers/${customerId}`)
+    .then((res) => {
+      customer.value = res.data.customer;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+onMounted(() => {
+  fetchCustomer();
 });
 
-const handleUpdate =()=>{
-    axios.put(`${baseUrl}/customers/${customerId}`,{
-        name:customer.value.name,
-        email:customer.value.email,
-        phone:customer.value.phone,
-        address:customer.value.address
-        
+const handleUpdate = () => {
+  axios
+    .put(`${baseUrl}/customers/${customerId}`, {
+      name: customer.value.name,
+      email: customer.value.email,
+      phone: customer.value.phone,
+      address: customer.value.address,
     })
-    .then(res=>{
-        console.log(res);
+    .then(() => {
+      router.push("/customers");
     })
-    .catch(err=>{
-        console.log(err);
-    })
-}
-
-
+    .catch((err) => {
+      console.log(err);
+    });
+};
 </script>
-
-<style>
-
-</style>
